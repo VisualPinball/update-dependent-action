@@ -29,14 +29,15 @@ on:
       - completed
 
 jobs:
-  VisualPinball.Engine:
+  VisualPinball-Unity-Hdrp:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'workflow_run' }}
     steps:
       - uses: actions/checkout@v2
         with:
           path: VisualPinball.Engine
-      - uses: actions/checkout@v2
+      - name: Checkout VisualPinball.Unity.Hdrp
+        uses: actions/checkout@v2
         with:
           repository: VisualPinball/VisualPinball.Unity.Hdrp
           path: VisualPinball.Unity.Hdrp
@@ -47,14 +48,14 @@ jobs:
         with:
           source: VisualPinball.Engine
           dependent: VisualPinball.Unity.Hdrp
-      - name: Commit VisualPinball.Unity.Hdrp
-        if: ${{ steps.updateDependents.outputs.isBump == 'true' }} 
+      - name: Commit 
+        if: ${{ steps.updateDependent.outputs.isBump == 'true' }} 
         run: |
           cd VisualPinball.Unity.Hdrp
           git config user.name "github-actions"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add package.json
-          git commit -m "chore(deps): Update ${{ steps.updateDependents.outputs.sourceName }} to ${{ steps.updateDependents.outputs.sourceVersion }}."
+          git commit -m "chore(deps): Update ${{ steps.updateDependent.outputs.sourceName }} to ${{ steps.updateDependent.outputs.sourceVersion }}."
           git push
 ```           
 
