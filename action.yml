@@ -1,0 +1,20 @@
+name: 'update-dependent-action'
+description: 'Action used to update a dependent''s package.json'
+author: 'Jason Millard <jsm174@gmail.com>'
+inputs:
+  source:
+    description: 'path to source project'
+    required: true
+  dependent:
+    description: 'path to dependent project'
+    required: true
+outputs:
+  sourceName: 
+    description: 'Name in source package.json'
+  sourceVersion:
+    description: 'Version in source package.json'
+  isBump:
+    description: 'If true, the dependent version differs from the source version'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
